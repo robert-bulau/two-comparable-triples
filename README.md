@@ -26,9 +26,6 @@ forcing-structures-two-comparable/
     └── verify_finite.py
 ```
 
-No license is included because the author has not selected one.  Add a license
-before public redistribution if desired.
-
 ## Requirements
 
 - Python 3.10 or later for the finite verification.
