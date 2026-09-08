@@ -1,0 +1,7 @@
+arrays examined: 262144
+monotone order-three matrices: 712
+cyclic representations checked: 2136
+aggregate second-energy count checked: 24
+explicit biclique cases checked: (2,2), (2,3), (3,3), (3,4)
+explicit pressure cases checked: (1,1), (2,2), (3,3), (4,6)
+all finite verification assertions passed

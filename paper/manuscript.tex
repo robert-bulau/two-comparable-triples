@@ -1,0 +1,1053 @@
+\documentclass[11pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{textcomp}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{enumitem}
+\usepackage{microtype}
+\usepackage[hidelinks]{hyperref}
+
+\setlength{\emergencystretch}{2em}
+\numberwithin{equation}{section}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\Fcal}{\mathcal F}
+\newcommand{\Hcal}{\mathcal H}
+\newcommand{\Inv}{\operatorname{Inv}}
+\newcommand{\Sat}{\operatorname{Sat}}
+
+\title{Forcing Graphs and Cyclic Completion Energy\\
+in Two-Comparable Triple Systems}
+\author{Bulau Robert Nicolae\\
+\small Colegiul Na\textcommabelow{t}ional ``Mihai Viteazul'',
+Ploie\textcommabelow{s}ti, Romania}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Let $G(n)$ be the maximum size of a subset of $[n]^3$ in which every two
+distinct triples are strictly ordered in at least two coordinates.  The best
+known general upper bound is $o(n^2)$, and it remains open whether
+$G(n)=O(n^{2-\delta})$ for an absolute $\delta>0$.  We study the repeated-coordinate
+constraints behind this problem through its equivalent formulation by monotone
+partial matrices.  Every pair of equal-label entries forces two cross holes.
+We orient these holes canonically and obtain an edge-coloured bipartite forcing
+graph: vertex degrees are forcing multiplicities, neighbourhoods are strict
+product-order chains, colour classes are order-preserving matchings, and every
+four-cycle is rainbow.  In the three coordinate representations, the second
+completion energies satisfy the cyclic packing law
+\[
+ E_x+E_y+E_z\le \binom{|M|}{2}.
+\]
+An exact decomposition of the unused capacity records coordinate-degree
+variance, forcing-degree variance, aligned pairs, and unsaturated inversions.
+We also prove endpoint-exclusion inequalities for common fibres.  Finally, the
+centres of all pressure grids through a fixed cell split into two signed sets,
+each admitting two canonical encodings as a new two-comparable set.  This gives
+pointwise bounds $L_0\le 2|M|$ and $L_1\le 2|M|^{3/2}$, with the exponent $3/2$
+sharp, and yields a fixed power saving under a quantitative pressure-load
+hypothesis.  These results impose simultaneous structural restrictions on a
+hypothetical near-quadratic family but do not establish such a power saving.
+\end{abstract}
+
+\section{Introduction}
+
+For $u,v\in[n]^3$, write $u\prec_2 v$ if $u$ is strictly smaller than $v$
+in at least two coordinates.  A set $M\subseteq[n]^3$ is \emph{pairwise
+two-comparable} if, for every distinct $u,v\in M$, either $u\prec_2v$ or
+$v\prec_2u$.  We consider the extremal function
+\[
+ G(n)=\max\{|M|:M\subseteq[n]^3\text{ is pairwise two-comparable}\}.
+\]
+The projection bound $G(n)\le n^2$ is immediate, since two members of $M$
+cannot agree in two coordinates.  The problem is nevertheless far from this
+elementary bound.  The related two-increasing sequence problem was posed by
+Loh~\cite{Loh}.  Gowers and Long proved, using quantitative triangle removal,
+that
+\[
+ G(n)\le \frac{n^2}{\exp(\Omega(\log^*n))}=o(n^2),
+\]
+and gave constructions of size at least $n^{1.546}$ for arbitrarily large
+$n$~\cite{GowersLong,Fox}.  The fixed-power question
+\begin{equation}\label{eq:open-problem}
+ G(n)=O(n^{2-\delta})\qquad\text{for some absolute }\delta>0
+\end{equation}
+remains open.  Equivalent formulations occur in monotone matrices and tripod
+packing; see Stein~\cite{Stein}, Tiskin~\cite{Tiskin}, Östergård and
+Pöllänen~\cite{OstergardPollanen}, and Aronov et al.~\cite{AronovEtAl}.
+The distinction from a two-increasing \emph{sequence} is important: Gowers and
+Long obtained a power saving for sequences by using acyclicity, which is absent
+for general two-comparable sets.  Recent higher-dimensional results for the
+related increasing-sequence and tournament problems likewise leave the
+three-coordinate comparable-set problem separate~\cite{FoxSudakovWigderson}.
+
+The present paper develops structural constraints on a two-comparable family.
+Choose one coordinate as a label and the other two as row and column.  The
+result is a partial matrix in which rows, columns, and equal-label positions
+are all strictly increasing.  If a label occurs in both the row and the column
+of an empty cell, then that label \emph{forces} the cell to remain empty.  The
+main results organize these forcing events in four ways.
+
+First, Section~\ref{sec:forcing-graph} constructs a canonical oriented forcing
+graph.  It is a simple edge-coloured bipartite graph whose degrees and wedges
+are the first and second completion counts.  Its neighbourhoods are ordered
+chains, its colour classes are order-preserving matchings, and all four-cycles
+and bicliques are rainbow.  Complete bipartite subgraphs of every fixed size
+can nevertheless occur, so the structure is not captured by a fixed forbidden
+subgraph.
+
+Second, Section~\ref{sec:common-fibres} proves an endpoint-exclusion theorem for
+any collection of common row fibres and derives a hierarchy of binomial-moment
+inequalities.  Third, Sections~\ref{sec:cyclic-energy} and
+\ref{sec:exact-slack} couple all three coordinate representations.  A
+double-forcing event is put in bijection with a saturated inversion.  The
+three inversion images are disjoint, giving
+\begin{equation}\label{eq:intro-cyclic}
+ E_x+E_y+E_z\le \binom{|M|}{2}.
+\end{equation}
+The associated exact slack identity retains every loss in the two variance
+steps and in the cyclic packing step.  It gives an elementary density
+calibration, an equality-stability statement, and a criterion showing that a
+near-quadratic family must have almost maximal polynomial-scale forcing energy
+in every coordinate representation.
+
+Fourth, Section~\ref{sec:pressure} studies the overlap of the rectangular
+pressure grids forced around holes.  For a fixed physical cell, the centres of
+all pressure grids containing it split according to orientation.  Each signed
+centre set has two canonical encodings as a pairwise two-comparable subset of
+$[n]^3$.  A discrete Loomis--Whitney estimate then gives the pointwise load
+bounds
+\begin{equation}\label{eq:intro-load}
+ L_0(z)\le 2|M|,\qquad L_1(z)\le 2|M|^{3/2}.
+\end{equation}
+The weighted exponent is sharp as a function of $|M|$.  Moreover, if the
+maximum weighted pressure load is $O(n^{3-\eta})$, then
+\[
+ |M|=O(n^{2-\eta/6}+n).
+\]
+Thus a concrete overlap estimate would imply \eqref{eq:open-problem}; the
+unconditional pointwise estimate identifies the overlap as a smaller copy of
+the original two-comparable problem.
+
+All results in the body of the paper are proved mathematically and do not
+depend on computation.  Appendix~\ref{app:verification} describes an exhaustive
+order-three verification used to check definitions, factors of two, and the
+explicit constructions.  Section~\ref{sec:scope} records the precise limits of
+the methods.  In particular, no absolute $\delta>0$ is obtained here.
+
+\section{Monotone partial matrices and completion counts}
+\label{sec:preliminaries}
+
+We first give the matrix correspondence and fix notation.  An order-$n$
+partial matrix $A$ has cells $[n]\times[n]$, some of which are filled by
+labels from $[n]$.  Its sets of filled cells and holes are denoted by
+$\Fcal(A)$ and $\Hcal(A)$.  It is \emph{monotone} if:
+\begin{enumerate}[label=(\roman*)]
+\item the filled entries in each row strictly increase from left to right;
+\item the filled entries in each column strictly increase from top to bottom;
+\item the cells carrying any fixed label form a strict chain in the
+row--column product order.
+\end{enumerate}
+Here $(i,j)<(i',j')$ means $i<i'$ and $j<j'$.
+
+Given a pairwise two-comparable set $M\subseteq[n]^3$, choose a coordinate
+$q\in\{x,y,z\}$ as the label and use the remaining two coordinates, in their
+cyclic order, as row and column.  Since two triples cannot agree in two
+coordinates, this defines a partial matrix $A^{(q)}$.  A pair agreeing in the
+row, column, or label coordinate gives, respectively, conditions (i), (ii), or
+(iii).  Conversely, these three conditions guarantee two-comparability for
+pairs agreeing in one coordinate; if all three coordinates differ, one of the
+two triples is smaller in at least two coordinates by the majority principle.
+We have therefore proved the following standard equivalence.
+
+\begin{proposition}[Matrix correspondence]\label{prop:matrix-correspondence}
+Pairwise two-comparable subsets of $[n]^3$ are in bijection with order-$n$
+monotone partial matrices.  The bijection may use any coordinate as label.
+\end{proposition}
+
+Fix one representation $A$.  If a hole $h=(i,j)$ has a label $k$ occurring
+both in row $i$ and in column $j$, then $k$ \emph{forces} $h$.  Write
+\[
+ K_h=\{k:k\text{ forces }h\},\qquad d(h)=|K_h|.
+\]
+The forcing multiplicity is zero for an unforced hole.  Let $t_k$ be the
+number of occurrences of label $k$.  The first completion count is exact.
+
+\begin{lemma}[First completion identity]\label{lem:first-completion}
+For every monotone partial matrix,
+\begin{equation}\label{eq:first-completion}
+ \sum_{h\in\Hcal(A)}d(h)=\sum_{k=1}^n t_k(t_k-1).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Order the $t_k$ occurrences of a fixed label $k$ as
+$(r_1,c_1)<\cdots<(r_{t_k},c_{t_k})$.  For every $p<q$, the two cross cells
+$(r_p,c_q)$ and $(r_q,c_p)$ are holes: filling either would contradict row and
+column monotonicity.  Both are forced by $k$.  Conversely, a forcing event
+$(h,k)$ uniquely determines the occurrence of $k$ in the row of $h$ and the
+occurrence of $k$ in its column, hence one of these two cross cells.  Thus label
+$k$ contributes $2\binom{t_k}{2}=t_k(t_k-1)$ events.  Summing over $k$ proves
+the identity.
+\end{proof}
+
+The \emph{second completion energy} is
+\begin{equation}\label{eq:second-energy}
+ E(A)=\sum_{h\in\Hcal(A)}\binom{d(h)}2,
+\end{equation}
+where $\binom d2=0$ for $d\in\{0,1\}$.  It counts a hole together with an
+unordered pair of labels that both force it.
+
+\section{The oriented forcing graph}
+\label{sec:forcing-graph}
+
+We begin with the local orientation that makes the graph canonical.
+
+\begin{lemma}[Common orientation]\label{lem:common-orientation}
+Let $h=(i,j)$ be forced by a label $k$, whose occurrences in row $i$ and
+column $j$ are $(i,c)$ and $(r,j)$.  Then $c<j$ if and only if $i<r$.
+Moreover, all labels forcing the same hole have the same one of the two
+orientations
+\[
+ c<j<{}\text{ and }i<r,\qquad\text{or}\qquad j<c\text{ and }r<i.
+\]
+\end{lemma}
+
+\begin{proof}
+The two occurrences of $k$ are comparable in the strict product order, so
+$c<j$ holds exactly when $i<r$.  Now let $a<b$ force $h$.  Their positions in
+row $i$ increase with the labels, and their positions in column $j$ do so as
+well.  If $a$ were in the first orientation and $b$ in the second, their row
+positions would have the correct order but their column positions would have
+the reverse order.  If the orientations were reversed, the contradiction
+would occur in the row.  Hence the orientation is common.
+\end{proof}
+
+Call the first orientation \emph{left-facing} and the second
+\emph{right-facing}; let $\Hcal_L$ and $\Hcal_R$ be the corresponding sets of
+forced holes.  For the ordered occurrences
+$(r_1,c_1)<\cdots<(r_{t_k},c_{t_k})$ of label $k$, put
+\[
+ \ell^k_{pq}=(r_p,c_q),\qquad r^k_{pq}=(r_q,c_p)\qquad(p<q).
+\]
+The first cross hole lies in $\Hcal_L$ and the second in $\Hcal_R$.
+
+\begin{definition}[Forcing graph]
+The \emph{forcing graph} $\Gamma(A)$ is the edge-coloured bipartite graph with
+parts $\Hcal_L$ and $\Hcal_R$.  For every label $k$ and $p<q$, it has an edge
+of colour $k$ joining $\ell^k_{pq}$ to $r^k_{pq}$.
+\end{definition}
+
+A matching between subsets of two product-ordered grids is
+\emph{order-preserving} if $x<x'$ for two first endpoints implies $y<y'$ for
+their corresponding second endpoints.
+
+\begin{theorem}[Forcing-graph normal form]\label{thm:forcing-normal-form}
+For every monotone partial matrix $A$, the graph $\Gamma(A)$ has the following
+properties.
+\begin{enumerate}[label=(\alph*)]
+\item It is simple and bipartite with parts $\Hcal_L,\Hcal_R$.
+\item The degree of every forced hole $h$ is $d(h)$.
+\item The neighbours of each vertex form a strict product-order chain; in that
+chain order, the incident edge colours strictly increase.
+\item Each colour class is an order-preserving matching.
+\item Every four-cycle has four distinct edge colours.
+\item Its edge and wedge counts are
+\begin{equation}\label{eq:edge-wedge-counts}
+ e(\Gamma(A))=\sum_{k=1}^n\binom{t_k}{2}
+ =\frac12\sum_{h\in\Hcal(A)}d(h),
+ \qquad
+ \sum_{h\in V(\Gamma(A))}\binom{\deg h}{2}=E(A).
+\end{equation}
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+The graph is bipartite by construction.  Its two cross holes determine the
+two opposite filled corners; those corners have the edge colour as their
+common label.  Thus two colours cannot give the same edge, and the graph is
+simple.
+
+Fix a left-facing hole $h=(i,j)$.  A forcing label $k$ occurs at unique cells
+$(i,c_k)$ and $(r_k,j)$ with $c_k<j$ and $i<r_k$.  The edge produced by these
+two occurrences joins $h$ to $(r_k,c_k)$.  Conversely, every incident edge
+arises in this way, and different labels give different neighbours.  Hence
+$\deg h=d(h)$.  If $a<b$ both force $h$, row and column monotonicity give
+$c_a<c_b$ and $r_a<r_b$.  Therefore the neighbours, and their incident
+colours, increase together.  The right-facing case is identical after
+reversing both inequalities.
+
+For a fixed label $k$, each of the maps $(p,q)\mapsto\ell^k_{pq}$ and
+$(p,q)\mapsto r^k_{pq}$ is injective, so its colour class is a matching.  If
+$\ell^k_{pq}<\ell^k_{uv}$, then $p<u$ and $q<v$, and consequently
+$r^k_{pq}<r^k_{uv}$.  The same argument with the order reversed proves that
+the matching is order-preserving.
+
+Consider a four-cycle.  Its two left vertices are comparable because both
+belong to the neighbourhood chain of either right vertex; similarly, its two
+right vertices are comparable.  Write them as $x<x'$ and $y<y'$.  If the
+colours at $(x,y),(x,y'),(x',y),(x',y')$ are $a,b,c,d$, respectively, the
+neighbourhood order gives
+\[
+ a<b<d,\qquad a<c<d.
+\]
+Adjacent edges have different colours because each colour class is a
+matching.  The only possible repetition is $b=c$, but then that colour has
+endpoints ordered as $x<x'$ on the left and $y'>y$ on the right, contrary to
+the order-preserving property.  Thus the cycle is rainbow.
+
+There is one edge for each unordered pair of occurrences of each label.  This
+proves the first edge equality.  Lemma~\ref{lem:first-completion}, or the
+degree identity and the handshake lemma, gives the second.  Finally, summing
+$\binom{\deg h}{2}=\binom{d(h)}2$ over the forced holes gives the wedge
+identity.
+\end{proof}
+
+The rainbow property extends from four-cycles to complete bipartite subgraphs.
+
+\begin{corollary}[Rainbow bicliques]\label{cor:rainbow-bicliques}
+Every $K_{s,t}$ contained in $\Gamma(A)$ is rainbow.  Consequently $st\le n$.
+In particular, two vertices in the same part have at most $\lfloor n/2\rfloor$
+common neighbours.
+\end{corollary}
+
+\begin{proof}
+Adjacent edges have distinct colours.  Two disjoint edges of a biclique are
+opposite edges of a four-cycle and hence also have distinct colours by
+Theorem~\ref{thm:forcing-normal-form}(e).  Thus the $st$ edges have distinct
+colours, while only $n$ labels are available.  The final assertion is the case
+$s=2$.
+\end{proof}
+
+The next construction shows that no fixed biclique can be excluded.
+
+\begin{proposition}[Arbitrary forcing bicliques]\label{prop:arbitrary-bicliques}
+For every $s,t\ge2$, there is an order-$n$ monotone partial matrix with
+$n=st$ whose forcing graph contains $K_{s,t}$.
+\end{proposition}
+
+\begin{proof}
+For $a\in[s]$ and $b\in[t]$, set $\lambda_{ab}=a+s(b-1)$.  Fill two disjoint
+rectangles by
+\[
+ A(a,b)=\lambda_{ab},\qquad
+ A(s+b,t+a)=\lambda_{ab},
+\]
+and leave all other cells empty.  Both rectangles fit because $s+t\le st$.
+Rows and columns increase, and the two occurrences of every label are strictly
+ordered in both coordinates; hence the matrix is monotone.
+
+For $a\in[s]$ put $x_a=(a,t+a)$, and for $b\in[t]$ put
+$y_b=(s+b,b)$.  The two filled cells carrying $\lambda_{ab}$ are the other
+corners of the rectangle with corners $x_a$ and $y_b$.  Therefore $x_ay_b$ is
+an edge of colour $\lambda_{ab}$ for every $(a,b)$, giving the required
+biclique.
+\end{proof}
+
+\section{Common fibres and moment inequalities}
+\label{sec:common-fibres}
+
+The forcing constraints also give exact inequalities for common fibres.  For
+a set $I$ of rows, define
+\begin{align*}
+ C(I)&=\{j:\text{column }j\text{ is filled in every row of }I\},\\
+ L(I)&=\{k:\text{label }k\text{ occurs in every row of }I\}.
+\end{align*}
+Let $r_i$ denote the number of filled cells in row $i$.
+
+\begin{theorem}[Endpoint exclusion]\label{thm:endpoint-exclusion}
+For every set $I$ of $p\ge2$ rows of an order-$n$ monotone partial matrix,
+\begin{equation}\label{eq:endpoint-exclusion}
+ p|L(I)|+|C(I)|\le n,\qquad
+ |L(I)|+p|C(I)|\le n,\qquad
+ |L(I)|+|C(I)|\le\min_{i\in I}r_i.
+\end{equation}
+The analogous statements obtained by permuting the three coordinate roles
+also hold.
+\end{theorem}
+
+\begin{proof}
+For $i\in I$ and $k\in L(I)$, let $c_i(k)$ be the column of the $k$-cell in
+row $i$.  We claim that the $p|L(I)|$ values $c_i(k)$ are all distinct.
+Suppose $c_i(k)=c_{i'}(\ell)=j$ for distinct pairs $(i,k)$ and $(i',\ell)$.
+Equality is impossible if $i=i'$ or $k=\ell$, so assume $i<i'$.  Column
+monotonicity gives $k<\ell$.  Since the $k$-cells form a strict product-order
+chain, $c_i(k)<c_{i'}(k)$; row monotonicity in row $i'$ gives
+$c_{i'}(k)<c_{i'}(\ell)$.  Hence $j<c_{i'}(k)<j$, a contradiction.
+
+None of these column values lies in $C(I)$.  Indeed, suppose that the $k$-cell
+in row $i$ lies in a common column $j$, and choose $i'\in I\setminus\{i\}$.
+If $i<i'$, the entry at $(i',j)$ is larger than $k$, whereas the equal-label
+chain places the $k$-cell of row $i'$ strictly to the right of $j$; row
+monotonicity gives the opposite comparison.  If $i'<i$, both comparisons
+reverse and again contradict each other.  Thus the $p|L(I)|$ values $c_i(k)$
+and the $|C(I)|$ common columns are distinct, proving the first inequality.
+
+Interchange the roles of column and label, retaining the row coordinate.
+Proposition~\ref{prop:matrix-correspondence} gives another monotone partial
+matrix, and the first inequality becomes $p|C(I)|+|L(I)|\le n$.  Finally, in
+any row $i\in I$, the cells with labels in $L(I)$ and the cells in columns
+$C(I)$ are disjoint by the preceding argument.  All are filled, proving the
+third inequality.  Coordinate symmetry gives the remaining versions.
+\end{proof}
+
+Let $c_j$ and $t_k$ denote column and label degrees in the fixed
+representation.
+
+\begin{corollary}[Common-neighbour moments]\label{cor:common-neighbour-moments}
+For every $2\le p\le n$,
+\begin{align}
+ p\sum_{k=1}^n\binom{t_k}{p}+\sum_{j=1}^n\binom{c_j}{p}
+ &\le n\binom np,\label{eq:moment-one}\\
+ \sum_{k=1}^n\binom{t_k}{p}+p\sum_{j=1}^n\binom{c_j}{p}
+ &\le n\binom np,\label{eq:moment-two}\\
+ \sum_{\substack{I\subseteq[n]\\|I|=p}}
+ \bigl(|L(I)|+|C(I)|\bigr)
+ &\le
+ \sum_{\substack{I\subseteq[n]\\|I|=p}}\min_{i\in I}r_i.
+ \label{eq:moment-three}
+\end{align}
+All cyclic variants hold.
+\end{corollary}
+
+\begin{proof}
+A label of degree $t_k$ belongs to $L(I)$ for exactly $\binom{t_k}{p}$ choices
+of $I$.  A column of degree $c_j$ belongs to $C(I)$ for exactly
+$\binom{c_j}{p}$ choices.  Sum the three inequalities in
+\eqref{eq:endpoint-exclusion} over all $p$-subsets $I$ of the rows.
+\end{proof}
+
+For $p=2$, if two rows share $D$ labels and $Q$ occupied columns, the first
+two inequalities say $2D+Q\le n$ and $D+2Q\le n$.  These are independent of
+the row degrees and strengthen the disjoint-cell bound
+$D+Q\le\min(r_i,r_{i'})$ in complementary directions.
+
+\section{Cyclic completion-energy packing}
+\label{sec:cyclic-energy}
+
+Return to a pairwise two-comparable set $M\subseteq[n]^3$ of size $m$.  For
+$q\in\{x,y,z\}$, let $A^{(q)}$ be the cyclic representation with coordinate
+$q$ as label, and define
+\[
+ E_q=E(A^{(q)})
+ =\sum_{h\in\Hcal(A^{(q)})}\binom{d_q(h)}2.
+\]
+
+A \emph{strict inversion} in a monotone partial matrix is an unordered pair
+of filled cells $(i,j)$ and $(r,c)$ with $i<r$, $j<c$, and with the label at
+$(i,j)$ larger than the label at $(r,c)$.  It is \emph{saturated} if one of
+its two cross cells is a hole forced by both endpoint labels.  Write
+$\Inv(A)$ and $\Sat(A)$ for the sets of strict and saturated inversions.
+
+\begin{lemma}[Saturated-inversion correspondence]\label{lem:saturated-inversion}
+For every monotone partial matrix $A$, there is a bijection between
+double-forcing events
+\[
+ (h,\{a,b\}),\qquad a<b,\quad a,b\in K_h,
+\]
+and saturated strict inversions.  Consequently
+\begin{equation}\label{eq:saturated-inversion-count}
+ E(A)=|\Sat(A)|\le |\Inv(A)|.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Let $h=(i,j)$ be forced by $a<b$.  In the left-facing orientation, pair the
+$b$-cell in row $i$ with the $a$-cell in column $j$.  The former is northwest
+of the latter and has the larger label, so the pair is a strict inversion;
+their other cross cell is $h$, forced by both labels.  In the right-facing
+orientation, pair the $b$-cell in column $j$ with the $a$-cell in row $i$.
+This again gives a saturated strict inversion.  This defines the forward map.
+
+Conversely, a saturated inversion together with its saturated cross hole
+recovers the two endpoint labels and hence the double-forcing event.  It
+remains to prove that a strict inversion cannot have both cross holes
+saturated.  Write its endpoints as a northwest cell $(p,q)$ of label $b$ and
+a southeast cell $(r,s)$ of label $a$, where $p<r$, $q<s$, and $a<b$.
+If the northeast cross hole $(p,s)$ is saturated, then row $p$ contains an
+additional $a$-cell strictly left of $(p,q)$.  If the southwest cross hole
+$(r,q)$ is saturated, then column $q$ contains an additional $a$-cell strictly
+above $(p,q)$.  Those two additional $a$-cells are strictly anti-aligned,
+contradicting the equal-$a$ chain condition.  Hence there is a unique
+saturated cross hole, so the inverse is well defined.  The two constructions
+are inverse to one another, proving bijectivity.
+\end{proof}
+
+\begin{theorem}[Cyclic energy packing]\label{thm:cyclic-energy-packing}
+For every pairwise two-comparable $M\subseteq[n]^3$ of size $m$,
+\begin{equation}\label{eq:cyclic-energy-packing}
+ \boxed{E_x+E_y+E_z\le\binom m2.}
+\end{equation}
+More precisely, the saturated-inversion images in the three coordinate
+representations are pairwise disjoint sets of unordered pairs from $M$.
+\end{theorem}
+
+\begin{proof}
+Apply Lemma~\ref{lem:saturated-inversion} to the three representations.  A
+strict inversion in $A^{(q)}$ is a pair of triples for which the two
+non-$q$ coordinates change in the same direction and the $q$ coordinate
+changes in the opposite direction.  Thus $q$ is the unique exceptional
+coordinate of the pair.  The same unordered pair cannot have two distinct
+unique exceptional coordinates, so the three saturated-inversion images are
+disjoint.  Each image is contained in $\binom{M}{2}$, proving
+\eqref{eq:cyclic-energy-packing}.
+\end{proof}
+
+By Theorem~\ref{thm:forcing-normal-form}, $E_q$ is the wedge count of the
+forcing graph in representation $q$.  Thus the total number of wedges in the
+three canonical graphs is packed into a single multiplicity-one resource:
+the unordered pairs of members of $M$.
+
+\section{Exact slack and consequences}
+\label{sec:exact-slack}
+
+Let $t_u^{(q)}$ be the number of members of $M$ whose $q$ coordinate is $u$,
+and put
+\begin{equation}\label{eq:def-Sq}
+ S_q=\sum_{u=1}^n t_u^{(q)}(t_u^{(q)}-1).
+\end{equation}
+Every representation has $H=n^2-m$ holes.  For $n\ge2$ one has $H>0$:
+otherwise Lemma~\ref{lem:first-completion} would force every label degree to be
+at most one, contrary to $m=n^2>n$.  Define
+\begin{equation}\label{eq:def-variances}
+ V_q=\sum_{u=1}^n\left(t_u^{(q)}-\frac mn\right)^2,\qquad
+ W_q=\sum_{h\in\Hcal(A^{(q)})}
+ \left(d_q(h)-\frac{S_q}{H}\right)^2.
+\end{equation}
+Let $P_{\parallel}$ count unordered pairs of members of $M$ whose three
+coordinates are distinct and all change in the same direction.  Finally, set
+\[
+ U_q=|\Inv(A^{(q)})|-E_q,
+\]
+the number of unsaturated strict inversions in the $q$ representation.
+
+\begin{theorem}[Exact slack identity]\label{thm:exact-slack}
+For every pairwise two-comparable $M\subseteq[n]^3$ of size $m$ and $n\ge2$,
+\begin{equation}\label{eq:exact-slack}
+ \boxed{
+ \binom m2
+ =\frac1{2H}\sum_{q\in\{x,y,z\}}S_q^2
+ +\frac12\sum_{q\in\{x,y,z\}}W_q
+ +P_{\parallel}+\sum_{q\in\{x,y,z\}}U_q.}
+\end{equation}
+Moreover,
+\begin{equation}\label{eq:coordinate-slack}
+ S_q=\frac{m^2}{n}-m+V_q.
+\end{equation}
+All remainder terms $V_q,W_q,P_{\parallel},U_q$ are nonnegative.
+\end{theorem}
+
+\begin{proof}
+Lemma~\ref{lem:first-completion} gives
+$\sum_{h\in\Hcal(A^{(q)})}d_q(h)=S_q$.  Expanding $W_q$ therefore yields the
+exact variance identity
+\begin{equation}\label{eq:energy-variance}
+ E_q=\frac12\left(\frac{S_q^2}{H}+W_q-S_q\right).
+\end{equation}
+
+We next partition the unordered pairs from $M$.  Two distinct members cannot
+agree in two coordinates, so the number of pairs agreeing in one coordinate
+is counted exactly once by the coordinate fibres and equals
+\[
+ \sum_q\sum_{u=1}^n\binom{t_u^{(q)}}2=\frac12\sum_q S_q.
+\]
+A pair differing in all three coordinates is either counted by
+$P_{\parallel}$ or has a unique exceptional coordinate $q$, in which case it
+is a strict inversion in $A^{(q)}$.  Hence
+\begin{equation}\label{eq:pair-partition}
+ \binom m2=\frac12\sum_qS_q+P_{\parallel}
+ +\sum_q(E_q+U_q).
+\end{equation}
+Substituting \eqref{eq:energy-variance} cancels the linear $S_q$ terms and
+proves \eqref{eq:exact-slack}.  Finally,
+\[
+ V_q=\sum_u(t_u^{(q)})^2-\frac{m^2}{n},
+\]
+and subtracting $\sum_u t_u^{(q)}=m$ gives
+\eqref{eq:coordinate-slack}.  Nonnegativity follows from the definitions and
+Lemma~\ref{lem:saturated-inversion}.
+\end{proof}
+
+The identity keeps both variance defects and the full unused part of cyclic
+inversion packing.  In particular,
+\begin{equation}\label{eq:basic-energy-lower}
+ S_q\ge \frac{m^2}{n}-m,\qquad
+ E_q\ge\frac12\left(\frac{S_q^2}{H}-S_q\right).
+\end{equation}
+
+\subsection{Density calibration and stability}
+
+\begin{corollary}[Elementary density calibration]\label{cor:density-calibration}
+One has
+\[
+ \limsup_{n\to\infty}\frac{G(n)}{n^2}
+ \le \rho_0:=\frac{\sqrt{13}-1}{6}=0.434258\ldots.
+\]
+\end{corollary}
+
+\begin{proof}
+Consider a sequence with $m/n^2\to\rho>0$.  The case $\rho=1$ is impossible:
+then $H=o(n^2)$ and $S_q\ge m^2/n-m=(1-o(1))n^3$, so
+\eqref{eq:basic-energy-lower} would give $E_q/n^4\to\infty$, contrary to
+Theorem~\ref{thm:cyclic-energy-packing}.  Thus $0<\rho<1$.  For every $q$,
+\[
+ S_q\ge B:=\frac{m^2}{n}-m=\Theta(n^3),\qquad H=\Theta(n^2).
+\]
+The function $s\mapsto s^2/H-s$ is increasing on $[B,\infty)$ for all
+sufficiently large $n$.  It follows from \eqref{eq:basic-energy-lower} that
+\[
+ \frac{E_q}{n^4}\ge\frac{\rho^4}{2(1-\rho)}+o(1).
+\]
+On the other hand, Theorem~\ref{thm:cyclic-energy-packing} gives
+$\sum_qE_q/n^4\le\rho^2/2+o(1)$.  Therefore
+\[
+ \frac{3\rho^4}{1-\rho}\le\rho^2,
+ \qquad\text{equivalently}\qquad 3\rho^2+\rho-1\le0.
+\]
+The positive root is $\rho_0$.
+\end{proof}
+
+The known bound $G(n)=o(n^2)$ is asymptotically stronger.  The corollary is
+included only as a calibration of the cyclic identity, not as a competitive
+upper bound.
+
+\begin{corollary}[Slack stability]\label{cor:slack-stability}
+If a sequence of pairwise two-comparable sets satisfies
+$m/n^2\to\rho_0$, then, for every $q\in\{x,y,z\}$,
+\[
+ V_q=o(n^3),\qquad W_q=o(n^4),\qquad
+ P_{\parallel}+\sum_qU_q=o(n^4).
+\]
+\end{corollary}
+
+\begin{proof}
+Put $B=m^2/n-m$, so $S_q=B+V_q$.  Subtract $3B^2/(2H)$ from both sides of
+\eqref{eq:exact-slack}.  The remainder on the right is the sum of the
+nonnegative quantities
+\[
+ \frac1{2H}\sum_q(2BV_q+V_q^2)
+ +\frac12\sum_qW_q+P_{\parallel}+\sum_qU_q.
+\]
+Since $3\rho_0^2+\rho_0-1=0$, the left side is $o(n^4)$.  Also
+$B=\Theta(n^3)$ and $H=\Theta(n^2)$, so each asserted estimate follows.
+\end{proof}
+
+In view of the known $o(n^2)$ upper bound, the hypothesis of
+Corollary~\ref{cor:slack-stability} does not describe an extremal sequence.
+Its role is to record the equality conditions of the elementary cyclic
+argument.
+
+\subsection{A low-energy criterion}
+
+\begin{corollary}[Low-energy power saving]\label{cor:low-energy}
+Fix $\eta>0$.  If $E_q=O(n^{4-\eta})$ for at least one coordinate $q$, then
+\begin{equation}\label{eq:low-energy-bound}
+ m=O\bigl(n^{2-\eta/4}+n^{3/2}\bigr).
+\end{equation}
+Consequently, if $m=n^{2-o(1)}$, then in every cyclic representation
+\[
+ e(\Gamma(A^{(q)}))=n^{3-o(1)},
+ \qquad
+ \sum_h\binom{\deg_{\Gamma(A^{(q)})}h}{2}=n^{4-o(1)}.
+\]
+\end{corollary}
+
+\begin{proof}
+If $m<2n^{3/2}$, then \eqref{eq:low-energy-bound} is immediate.  Otherwise
+$S_q\ge m^2/(2n)\ge2n^2$.  Since $H\le n^2$, we have
+$S_q^2/H\ge2S_q$, and \eqref{eq:basic-energy-lower} gives
+\[
+ E_q\ge\frac{S_q^2}{4H}
+ \ge\frac{S_q^2}{4n^2}
+ \ge\frac{m^4}{16n^4}.
+\]
+Comparison with $E_q=O(n^{4-\eta})$ gives
+$m=O(n^{2-\eta/4})$.  For the final assertion,
+\eqref{eq:first-completion} and \eqref{eq:coordinate-slack} give
+$e(\Gamma(A^{(q)}))=S_q/2=n^{3-o(1)}$, while the preceding lower bound and
+Theorem~\ref{thm:forcing-normal-form}(f) give the wedge estimate.
+\end{proof}
+
+\section{Recursive pressure overlap}
+\label{sec:pressure}
+
+Let a forced hole $h=(i,j)$ have forcing labels
+$K_h=\{k_1<\cdots<k_d\}$.  Write
+\[
+ A(i,c_p)=k_p=A(r_p,j),
+ \qquad
+ P_h=\{(r_p,c_q):1\le p,q\le d\}.
+\]
+We call $P_h$ the \emph{pressure grid} of $h$.  By
+Lemma~\ref{lem:common-orientation}, either
+\begin{equation}\label{eq:left-orientation}
+ c_1<\cdots<c_d<j,\qquad i<r_1<\cdots<r_d,
+\end{equation}
+or
+\begin{equation}\label{eq:right-orientation}
+ j<c_1<\cdots<c_d,\qquad r_1<\cdots<r_d<i.
+\end{equation}
+
+\begin{lemma}[Triangular pressure bound]\label{lem:triangular-pressure}
+Every forced hole satisfies
+\begin{equation}\label{eq:triangular-pressure}
+ |P_h\cap\Hcal(A)|\ge\frac{d(h)(d(h)+1)}2.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+In the orientation \eqref{eq:left-orientation}, every cell $(r_p,c_q)$ with
+$p\le q$ is a hole.  Indeed, a label placed there would be smaller than $k_p$
+by row monotonicity and larger than $k_q$ by column monotonicity, which is
+impossible because $k_p\le k_q$.  In the orientation
+\eqref{eq:right-orientation}, the same argument, with inequalities reversed,
+shows that all $(r_p,c_q)$ with $p\ge q$ are holes.  Either triangular half
+has $d(d+1)/2$ cells.
+\end{proof}
+
+Fix a physical cell $z=(r,c)$, whether filled or empty.  Define the signed
+sets of pressure centres
+\begin{align}
+ \mathcal Z_z^+&=\{(i,j)\in\Hcal(A):z\in P_{(i,j)},\ i<r,\ c<j\},\label{eq:Zplus}\\
+ \mathcal Z_z^-&=\{(i,j)\in\Hcal(A):z\in P_{(i,j)},\ r<i,\ j<c\}.
+ \label{eq:Zminus}
+\end{align}
+These are the only possibilities, corresponding to
+\eqref{eq:left-orientation} and \eqref{eq:right-orientation}.  Put
+\begin{equation}\label{eq:def-loads}
+ L_0(z)=|\mathcal Z_z^+|+|\mathcal Z_z^-|,
+ \qquad
+ L_1(z)=\sum_{h:z\in P_h}d(h).
+\end{equation}
+
+We use the following finite form of the Loomis--Whitney inequality.
+
+\begin{lemma}[Projection inequality]\label{lem:projection-inequality}
+If $X$ is a finite subset of a three-fold Cartesian product, then
+\[
+ |X|^2\le |\pi_{12}X|\,|\pi_{13}X|\,|\pi_{23}X|.
+\]
+\end{lemma}
+
+\begin{proof}
+For $(a,b)\in\pi_{12}X$, let $X_{ab}=\{c:(a,b,c)\in X\}$.  Cauchy--Schwarz
+gives
+\[
+ |X|^2\le |\pi_{12}X|\sum_{a,b}|X_{ab}|^2.
+\]
+The sum counts ordered pairs $(a,b,c,c')$ with $(a,b,c),(a,b,c')\in X$.
+The map
+\[
+ (a,b,c,c')\longmapsto((a,c),(b,c'))
+\]
+is injective into $\pi_{13}X\times\pi_{23}X$.  Hence the sum is at most
+$|\pi_{13}X|\,|\pi_{23}X|$, proving the result.
+\end{proof}
+
+\begin{theorem}[Recursive pressure support]\label{thm:recursive-pressure}
+For every cell $z$ and each sign $\varepsilon\in\{+,-\}$, the centre set
+$\mathcal Z_z^\varepsilon$ has two canonical injective encodings as pairwise
+two-comparable subsets of $[n]^3$.  If $A$ has $m$ filled cells, then
+\begin{equation}\label{eq:pointwise-pressure}
+ \boxed{L_0(z)\le2m,\qquad L_1(z)\le2m^{3/2}.}
+\end{equation}
+More precisely, each signed contribution to $L_1(z)$ is at most $m^{3/2}$.
+\end{theorem}
+
+\begin{proof}
+We prove the assertions for $\mathcal Z_z^+$; reversing all inequalities gives
+the proof for $\mathcal Z_z^-$.  Let $h=(i,j)\in\mathcal Z_z^+$.  Since
+$z=(r,c)\in P_h$, the boundary cells
+\[
+ A(r,j)=a_j,\qquad A(i,c)=b_i
+\]
+are filled and both labels belong to $K_h$.  For fixed $z$, the first label
+depends only on $j$ and increases strictly with $j$; the second depends only
+on $i$ and increases strictly with $i$.
+
+Because $a_j$ forces $h$ and already occurs in column $j$, it has a unique
+occurrence $(i,p_{ij})$ in row $i$.  Similarly, $b_i$ has a unique occurrence
+$(q_{ij},j)$ in column $j$.  Consider the two encodings
+\begin{equation}\label{eq:pressure-encodings}
+ (i,j)\longmapsto(i,j,p_{ij}),
+ \qquad
+ (i,j)\longmapsto(i,j,q_{ij}).
+\end{equation}
+We verify the first.  If two images have the same first coordinate $i$, then
+$j<j'$ implies $a_j<a_{j'}$ and row monotonicity gives
+$p_{ij}<p_{ij'}$.  If they have the same second coordinate $j$, the
+equal-$a_j$ chain gives $i<i'\Rightarrow p_{ij}<p_{i'j}$.  If they have the
+same third coordinate $p$, then column monotonicity in column $p$ gives
+$i<i'\Rightarrow a_j<a_{j'}$, and row monotonicity in row $r$ gives $j<j'$.
+If all coordinates differ, one of the two triples is smaller in at least two
+coordinates automatically.  Hence the image is pairwise two-comparable.  The
+second encoding follows in the same way, using successively the equal-$b_i$
+chain, column monotonicity, and row monotonicity.
+
+The first encoding assigns to $(i,j)$ the filled cell $(i,p_{ij})$.  These
+cells are distinct: centres in different rows have different first
+coordinates, while for fixed $i$ the preceding argument gives distinct
+$p_{ij}$.  Thus $|\mathcal Z_z^+|\le m$.  The other sign gives
+$L_0(z)\le2m$.
+
+For the weighted assertion, form the incidence set
+\[
+ \mathcal I_z^+=\{(i,j,k):(i,j)\in\mathcal Z_z^+,\ k\in K_{(i,j)}\}.
+\]
+Its $(i,j)$-projection is the centre set and has size at most $m$.  Its
+$(i,k)$-projection is contained in the set of occupied row--label pairs of
+$A$, and its $(j,k)$-projection is contained in the occupied column--label
+pairs.  Each of the latter sets has size exactly $m$, since a label occurs at
+most once in a fixed row or column.  Lemma~\ref{lem:projection-inequality}
+therefore gives
+\[
+ |\mathcal I_z^+|^2
+ \le |\pi_{ij}\mathcal I_z^+|\,
+      |\pi_{ik}\mathcal I_z^+|\,
+      |\pi_{jk}\mathcal I_z^+|
+ \le m^3.
+\]
+Since $|\mathcal I_z^+|=\sum_{h\in\mathcal Z_z^+}d(h)$, the positive signed
+load is at most $m^{3/2}$.  The negative signed load obeys the same bound;
+adding them completes the proof.
+\end{proof}
+
+The theorem turns uncontrolled geometric overlap into a recursive incidence
+problem on genuine two-comparable supports.  It also yields an explicit
+sufficient condition for a power saving.
+
+\begin{corollary}[Pressure-load criterion]\label{cor:pressure-load}
+Let
+\[
+ \Omega_1(A)=\max_{z\in\Hcal(A)}L_1(z),\qquad
+ \Omega_0(A)=\max_{z\in\Hcal(A)}L_0(z).
+\]
+Suppose a class of order-$n$ monotone partial matrices satisfies, uniformly,
+$\Omega_1(A)\le Cn^{3-\eta}$ for constants $C<\infty$ and $\eta>0$.  Then
+every member of the class has
+\begin{equation}\label{eq:pressure-power-saving}
+ m=O_C(n^{2-\eta/6}+n).
+\end{equation}
+Under the alternative hypothesis $\Omega_0(A)\le Cn^{2-\eta}$, one has
+$m=O_C(n^{2-\eta/4}+n)$.
+\end{corollary}
+
+\begin{proof}
+Write $S=\sum_{h\in\Hcal(A)}d(h)=\sum_k t_k(t_k-1)$ and $H=n^2-m$.
+Double-count the weighted incidences $(h,z)$ with
+$z\in P_h\cap\Hcal(A)$.  Lemma~\ref{lem:triangular-pressure} and the
+power-mean inequality give
+\[
+ H\Omega_1(A)
+ \ge\frac12\sum_h\bigl(d(h)^3+d(h)^2\bigr)
+ \ge\frac{S^3}{2H^2}.
+\]
+If $m\ge2n$, then
+$S\ge m^2/n-m\ge m^2/(2n)$, and $H\le n^2$.  Consequently
+\[
+ m^6\le16n^9\Omega_1(A)\le16C n^{12-\eta},
+\]
+so $m\le(16C)^{1/6}n^{2-\eta/6}$.  The case $m<2n$ is absorbed by the
+$O(n)$ term.
+
+For the unweighted count, the same double counting gives
+\[
+ H\Omega_0(A)\ge\frac12\sum_h(d(h)^2+d(h))\ge\frac{S^2}{2H}.
+\]
+When $m\ge2n$, this yields
+$m^4\le8n^6\Omega_0(A)\le8C n^{8-\eta}$ and hence the asserted exponent
+$2-\eta/4$.
+\end{proof}
+
+The exponent $3/2$ in Theorem~\ref{thm:recursive-pressure} is optimal as a
+function of $m$.
+
+\begin{proposition}[Sharp pressure overlap]\label{prop:sharp-pressure}
+For all integers $s,t\ge1$, put
+$N=s(s+t)+s+1$.  There is an order-$N$ monotone partial matrix with
+\[
+ m=2s(s+t+1)
+\]
+filled cells and a hole $z$ such that
+\[
+ L_0(z)\ge s^2,\qquad L_1(z)\ge s^2(t+2).
+\]
+Taking $t=s$ gives $m=\Theta(N)$ and
+$L_1(z)=\Theta(N^{3/2})=\Theta(m^{3/2})$.
+\end{proposition}
+
+\begin{proof}
+Use rows and columns in $[N]$.  Set $c_0=1$, $r_0=N$, and
+\[
+ C_{i,u}=1+(i-1)(s+t)+u,\qquad
+ J_j=1+s(s+t)+j,\qquad
+ R_{j,u}=s+(j-1)(s+t)+u.
+\]
+For $i,j\in[s]$ and $u\in[s+t]$, let
+\[
+ B_i=i,\qquad K_u=s+u,\qquad A_j=s+t+j=K_{t+j}.
+\]
+Fill
+\begin{align*}
+ A(i,c_0)&=B_i,& A(i,C_{i,u})&=K_u,\\
+ A(R_{j,u},J_j)&=u,& A(r_0,J_j)&=A_j,
+\end{align*}
+and leave every other cell empty.  The listed indices lie in $[N]$.  Each
+nonempty row and column is strictly increasing.  It remains to check the
+equal-label chains.  A label $u\in[s]$ occurs first at $(u,c_0)$ and then at
+the cells $(R_{j,u},J_j)$, which move strictly southeast with $j$.  A label
+$s+u$ with $u\in[t]$ occurs at $(i,C_{i,u})$ for $i\in[s]$ and then at
+$(R_{j,s+u},J_j)$ for $j\in[s]$; both subfamilies are southeast chains, and
+every cell in the first is northwest of every cell in the second.  Finally, a
+label $s+u$ with $t<u\le s+t$ occurs at $(i,C_{i,u})$ for $i\in[s]$ and once
+more at $(r_0,J_{u-t})$.  These cells also form a southeast chain.  Hence $A$
+is monotone.
+
+For every $(i,j)\in[s]^2$, the cell $(i,J_j)$ is a hole forced by exactly
+\[
+ \{B_i,A_j,K_1,\ldots,K_t\}.
+\]
+Its pressure grid contains $z=(r_0,c_0)$, using the $A_j$ column arm and the
+$B_i$ row arm.  Therefore these $s^2$ centres contribute $s^2$ to $L_0(z)$
+and $s^2(t+2)$ to $L_1(z)$.  The two displayed families of filled cells are
+disjoint, each having $s(s+t+1)$ members, which proves the formula for $m$.
+Putting $t=s$ gives the stated asymptotics.
+\end{proof}
+
+\section{Scope and the multiscale obstruction}
+\label{sec:scope}
+
+The results above do not prove \eqref{eq:open-problem}.  They instead isolate
+three limitations of one-scale arguments.  First, forcing graphs need not be
+acyclic.  For example,
+\[
+ \begin{pmatrix}
+ 1&3&\cdot&\cdot\\
+ 2&4&\cdot&\cdot\\
+ \cdot&\cdot&1&2\\
+ \cdot&\cdot&3&4
+ \end{pmatrix}
+\]
+is monotone and its forcing graph contains a four-cycle; the four colours are
+distinct, as Theorem~\ref{thm:forcing-normal-form} requires.  More generally,
+Proposition~\ref{prop:arbitrary-bicliques} excludes every strategy based only
+on forbidding one fixed biclique.
+
+Second, Proposition~\ref{prop:sharp-pressure} shows that the exponent in the
+unconditional bound $L_1(z)\le2m^{3/2}$ cannot be improved using only $m$.
+When $m$ is near the quadratic scale, this bound is of cubic order, exactly
+the scale at which Corollary~\ref{cor:pressure-load} ceases to save a power.
+Any improvement must therefore use the geometry or density of the recursive
+centre encodings, not only their cardinality.
+
+Third, the baseline part of the exact slack identity is too small at a
+slowly subquadratic scale.  If formally $m=n^2/L$ with $L\to\infty$ and
+$L=o(n)$, then $H=(1-o(1))n^2$ and
+\[
+ \frac{1}{2H}\sum_q\left(\frac{m^2}{n}-m\right)^2
+ =\Theta\!\left(\frac{n^4}{L^4}\right),
+ \qquad
+ \binom m2=\Theta\!\left(\frac{n^4}{L^2}\right).
+\]
+Thus the exact identity can exclude this scale only if it forces one of the
+variance, alignment, or unsaturated-inversion terms to be large in a way that
+persists under restriction.  No such cross-scale estimate is proved here.
+
+The recursive pressure theorem supplies a natural carrier for such an
+estimate: grids through one cell already produce smaller two-comparable sets.
+A fixed power saving would follow from a density decrement on those supports,
+from a multiplicative loss on a positive proportion of scales, or from a new
+interaction among the three cyclic representations.  Establishing any one of
+these remains open.
+
+\appendix
+
+\section{Finite verification}
+\label{app:verification}
+
+The accompanying program \texttt{src/verify\_finite.py} is a supplementary
+consistency check; it is not used in any proof.  It enumerates the
+$4^9=262144$ arrays in
+\[
+ \{\text{empty},1,2,3\}^{[3]\times[3]},
+\]
+retains exactly the $712$ arrays satisfying the three monotonicity conditions,
+and checks the following statements for every retained array and every cyclic
+coordinate representation:
+\begin{enumerate}[label=(\roman*)]
+\item common orientation, forcing-graph simplicity, degree equality, chain
+neighbourhoods, order-preserving colour matchings, rainbow four-cycles, and
+the edge and wedge identities;
+\item endpoint exclusion for every row subset of size at least two;
+\item the saturated-inversion correspondence, cyclic energy packing, the
+pair partition \eqref{eq:pair-partition}, and the exact rational identity
+\eqref{eq:exact-slack};
+\item the two pressure-support encodings and all three projection bounds.
+\end{enumerate}
+The same program verifies Proposition~\ref{prop:arbitrary-bicliques} for four
+small parameter pairs and Proposition~\ref{prop:sharp-pressure} for four
+small parameter pairs.  All variance calculations use exact rational
+arithmetic.  The complete command and expected output are given in the
+repository README.  The finite computation proves only the stated finite
+enumeration and checks the implementation against the general proofs; the
+theorems themselves are not computer-assisted.
+
+\begin{thebibliography}{99}
+
+\bibitem{AronovEtAl}
+B. Aronov, V. Dujmovi\'c, P. Morin, A. Ooms, and L. F. S. X. da Silveira,
+More Turán-type theorems for triangles in convex point sets,
+\emph{Electron. J. Combin.} \textbf{26} (2019), Paper No. 1.8, 26 pp.
+
+\bibitem{Fox}
+J. Fox,
+A new proof of the graph removal lemma,
+\emph{Ann. of Math. (2)} \textbf{174} (2011), 561--579.
+
+\bibitem{FoxSudakovWigderson}
+J. Fox, B. Sudakov, and Y. Wigderson,
+Color-avoiding Ramsey for directed paths and vector sequences,
+preprint, arXiv:2512.10438, 2025; revised 2026.
+
+\bibitem{GowersLong}
+W. T. Gowers and J. Long,
+The length of an $s$-increasing sequence of $r$-tuples,
+\emph{Combin. Probab. Comput.} \textbf{30} (2021), 686--721.
+
+\bibitem{Loh}
+P.-S. Loh,
+Directed paths: from Ramsey to Ruzsa and Szemerédi,
+preprint, arXiv:1505.07312, 2015; revised 2016.
+
+\bibitem{OstergardPollanen}
+P. R. J. Östergård and A. Pöllänen,
+New results on tripod packings,
+\emph{Discrete Comput. Geom.} \textbf{61} (2019), 271--284.
+
+\bibitem{Stein}
+S. K. Stein,
+Packing tripods,
+\emph{Math. Intelligencer} \textbf{17} (1995), no.~2, 37--39.
+
+\bibitem{Tiskin}
+A. Tiskin,
+Packing tripods: narrowing the density gap,
+\emph{Discrete Math.} \textbf{307} (2007), 1973--1981.
+
+\end{thebibliography}
+
+\end{document}
